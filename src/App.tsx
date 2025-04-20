@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import './App.css';
 import { User } from './types';
 import Form from './components/Form';
 import UsersList from './components/UsersList';
 import { fetchUsers, LogIn } from './services/usersService';
 import Login from './components/Login';
+import EditUser from './components/EditUser';
 
 interface AppState {
     currentUser: User | null;
@@ -24,6 +25,8 @@ function App() {
     const [newUsersNumber, setNewUsersNumber] = useState<AppState['newUsersNumber']>(0);
     const [isLoggedIn, setIsLoggedIn] = useState<AppState['isLoggedIn']>(false);
     const [currentUser, setCurrentUser] = useState<AppState['currentUser']>(null);
+
+    const [key, forceUpdate] = useReducer(x => x + 1, 0);
 
     const [uiState, setUiState] = useState<UIState>({
         isDarkMode: false,
@@ -46,7 +49,7 @@ function App() {
         if (isLoggedIn) {
             loadUsers();
         }
-    }, [newUsersNumber, isLoggedIn]);
+    }, [newUsersNumber, isLoggedIn, key]);
 
     useEffect(() => {
         if (uiState.showNotification) {
@@ -95,6 +98,12 @@ function App() {
         }
     };
 
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    function handleEditUser(){
+        setSelectedUser(null);
+        forceUpdate();
+    }
+
     return (
         <div className="App" ref={divRef}>
             {/* Notification Popup */}
@@ -116,12 +125,18 @@ function App() {
                 ) : (
                     <>
                         <h2>Bienvenido, {currentUser?.name}!</h2>
-                        <UsersList users={users} />
+                        <UsersList users={users} selectUser={setSelectedUser}/>
                         <p>New users: {newUsersNumber}</p>
                         <Form onNewUser={handleNewUser} />
                     </>
                 )}
             </div>
+            {selectedUser ? (
+                <div className="overlay" onClick={() => setSelectedUser(null)}>
+                    <EditUser user={selectedUser} onEditUser={handleEditUser}></EditUser>
+                </div>
+            ) : null
+            }
         </div>
     );
 }

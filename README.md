@@ -1,3 +1,8 @@
+# Fonts
+- https://daveceddia.com/react-hook-after-render/
+- https://stackoverflow.com/questions/5364152/make-higher-z-index-elements-disable-lower-elements-onclick
+- https://react.dev/learn/extracting-state-logic-into-a-reducer
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

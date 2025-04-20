@@ -1,0 +1,12 @@
+.overlay .editUser {
+    z-index: 101;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    border-radius: 5px;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}

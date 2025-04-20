@@ -26,6 +26,13 @@ export const addUser = async (newUser: User): Promise<User> => {
     }
 };
 
+export const editUser = async(id: string, changes: Partial<User>) => {
+    const response = await axios.put<Partial<User>>('http://localhost:9000/api/Users/' + id, changes);
+    if(response.status !== 200) {
+        throw new Error("Failed to edit user");
+    }
+}
+
 // Log in a user
 export const LogIn = async (email: string, password: string): Promise<User> => {
     try {
